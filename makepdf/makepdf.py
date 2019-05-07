@@ -1,7 +1,8 @@
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-import datetime 
-_days = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"]
+import datetime
+_days = ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes",
+         "Sabado", "Domingo"]
 _months = [
     "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
@@ -12,10 +13,9 @@ def hazcarta(*args):
     tipos = args[0]
     resp = args[1]
     equipo = args[2]
-    
     w, h = A4
     c = canvas.Canvas("hola-mundo.pdf", pagesize=A4)
-    url_img = "https://res.cloudinary.com/teepublic/image/private/s--1slEw80b--/t_Preview/b_rgb:ffffff,c_limit,f_jpg,h_630,q_90,w_630/v1515387356/production/designs/2262554_1.jpg" 
+    url_img = "http://cort.as/-HmvP"
     c.drawImage(url_img, 40, h - 280, width=270, height=270)
     c.drawString(380, h - 50, "Mexico {}  {} de {} del {}".format(
         _days[datetime.date.weekday(datetime.date.today())],
@@ -32,14 +32,15 @@ def hazcarta(*args):
         "Tu equipo está conformado por 6 pokemones con 4 ataques:")
     text.textLines("\n\n")
     for i in range(6):
-        aux = equipo[i][1] 
+        aux = equipo[i][1]
         aux = [i.capitalize() for i in aux]
-        text.textLines( 
-            "{} : {}: 1:{} 2:{} 3: {} 4:{} \n ".format(i+1, equipo[i][0].capitalize(),
-            aux[0], aux[1], aux[2], aux[3]))
-    text.textLines("\n\n")       
+        text.textLines(
+            "{} : {}: 1:{} 2:{} 3: {} 4:{} \n "
+            .format(
+             i+1, equipo[i][0].capitalize(), aux[0], aux[1], aux[2], aux[3]))
+    text.textLines("\n\n")
     text.textLines(" \n Te deseo la mejor de las suertes")
-    firma = c.beginText(200,180)
+    firma = c.beginText(200, 180)
     firma.setFont("Times-Roman", 14)
     firma.textLines("Atentamente: CarloKryp")
     c.drawText(text)

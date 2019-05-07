@@ -49,7 +49,6 @@ def get_pokemon_user(i):
     aux = 0
     lista = [None, None, None, None, None, None]
     url = "https://pokeapi.co/api/v2/type/{}".format(link)
-    print (url)
     response = requests.get(url)
     if response.status_code == 200:
         payload = response.json()
@@ -88,13 +87,21 @@ def __ataques(lista):
         t = Thread(target=__cuatroataques, args=(lista, ataques, i, que))
         t2 = Thread(target=__cuatroataques, args=(lista, ataques, i+2, que))
         t3 = Thread(target=__cuatroataques, args=(lista, ataques, i+4, que))
-        t.start()
-        t2.start() 
-        t3.start()
+        try:
+            t.start()
+        except Exception as err:
+            print ("no se pudo ejecutar el hilo", t)
+        try:
+            t2.start()
+        except Exception as err:
+            print ("no se pudo ejecutar el hilo", t2)
+        try:
+            t3.start()
+        except Exception as err:
+            print ("no se pudo ejecutar el hilo", t3)
         threads_list.append(t)
         threads_list.append(t2)
         threads_list.append(t3)
-        print("varios hilos agregar try")
     for hilo in threads_list:
         hilo.join()
     k = 0
