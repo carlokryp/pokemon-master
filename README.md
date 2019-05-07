@@ -1,5 +1,10 @@
 # pokemon-master
-Temas atendidos
+
+## Descripción:
+El sistema mediante una api msotrará al usuario los tipos de maestro pokemon que existen, el usuario elige uno y se solicita a la api los pokemones de dicho tipo el usuario elige 4 pokemones y el sistema solicita los ataques de esos 6 pokemones, que en ocasiones son mas de 100, el sistema escoge 4 ataques al azar y se los selecciona a cada pokemon. 
+El sistema generá una carta de bienvenidad, con la fecha en que se hizo la solicitud, el tipo de maestro pokemon que eligió y su equipo formado.
+
+## Temas atendidos
 * ODD
 * Exceptions (error handling)
 * Inmutability
