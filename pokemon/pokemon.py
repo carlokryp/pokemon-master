@@ -1,5 +1,7 @@
 import requests
 import random
+import queue
+from threading import Thread
 
 
 def get_pokemontypes():
@@ -77,20 +79,42 @@ def get_pokemon_user(i):
 
 
 def __ataques(lista):
-    equipo = {}
+    que = queue.Queue()
+    threads_list = list()
     ataques = {}
-    for i in range(6):
-        url = "https://pokeapi.co/api/v2/pokemon/{}".format(lista[i])
-        response = requests.get(url)
-        if response.status_code == 200:
-            payload = response.json()
-            moves = payload.get("moves", [])
-            j = 0
-            for move in moves:
-                ataques[j] = move["move"]["name"]
-                j += 1
-            lista_aux = []
-            lista_aux.append(payload.get("name"))
-            lista_aux.append(random.sample(list(ataques.values()), 4))
-            equipo[i] = lista_aux
+    equipo = {}
+    for i in range(2):
+        t = Thread(target=__cuatroataques, args=(lista, ataques, i, que))
+        t2 = Thread(target=__cuatroataques, args=(lista, ataques, i+2, que))
+        t3 = Thread(target=__cuatroataques, args=(lista, ataques, i+4 que))
+        t.start()
+        t2.start()
+        t3.start()
+        threads_list.append(t)
+        threads_list.append(t2)
+        threads_list.append(t3)
+    for hilo in threads_list:
+        hilo.join()
+    while not que.empty():
+        result = que.get()
+        equipo[result[0]] = result[1:]
     return (equipo)
+
+
+def __cuatroataques(lista, ataques, i, que):
+    url = "https://pokeapi.co/api/v2/pokemon/{}".format(lista[i])
+    response = requests.get(url)
+    if response.status_code == 200:
+        payload = response.json()
+        moves = payload.get("moves", [])
+        j = 0
+        for move in moves:
+            ataques[j] = move["move"]["name"]
+            j += 1
+        equipo = {}
+        lista_aux = []
+        lista_aux.append(payload.get("name"))
+        lista_aux.append(random.sample(list(ataques.values()), 4))
+        equipo = lista_aux
+        que.put(equipo)
+    return equipo
