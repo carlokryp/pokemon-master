@@ -1,3 +1,4 @@
+
 import requests
 import random
 import queue
@@ -86,18 +87,21 @@ def __ataques(lista):
     for i in range(2):
         t = Thread(target=__cuatroataques, args=(lista, ataques, i, que))
         t2 = Thread(target=__cuatroataques, args=(lista, ataques, i+2, que))
-        t3 = Thread(target=__cuatroataques, args=(lista, ataques, i+4 que))
+        t3 = Thread(target=__cuatroataques, args=(lista, ataques, i+4, que))
         t.start()
-        t2.start()
+        t2.start() 
         t3.start()
         threads_list.append(t)
         threads_list.append(t2)
         threads_list.append(t3)
+        print("varios hilos agregar try")
     for hilo in threads_list:
         hilo.join()
+    k = 0
     while not que.empty():
         result = que.get()
-        equipo[result[0]] = result[1:]
+        equipo[k] = result
+        k += 1
     return (equipo)
 
 
